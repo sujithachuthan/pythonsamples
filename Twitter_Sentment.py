@@ -1,4 +1,3 @@
-__author__ = 'arijit'
 # Application to pull streaming data from twitter and determine the sentiment of them.
 #Author - arijit
 from tweepy import Stream
