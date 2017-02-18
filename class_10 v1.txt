@@ -1,0 +1,452 @@
+Beautiful Soup:
+=====================================
+Example 1:
+
+from bs4 import BeautifulSoup
+import urllib2
+
+url = "http://www.pythonforbeginners.com"
+
+content = urllib2.urlopen(url).read()
+
+soup = BeautifulSoup(content)
+
+print soup.prettify()
+
+print title
+#>> 'title'? Python For Beginners
+
+print soup.title.string
+#>> ? Python For Beginners
+
+print soup.p
+
+print soup.a
+#Python For Beginners
+
+
+----------------------------------
+
+Example 2:
+
+from bs4 import BeautifulSoup
+
+import requests
+
+url = raw_input("Enter a website to extract the URL's from: ")
+
+r  = requests.get("http://" +url)
+
+data = r.text
+
+soup = BeautifulSoup(data)
+
+for link in soup.find_all('a'):
+    print(link.get('href'))
+	
+	
+-----------------------------------
+
+Example 3: (linux)
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(open("/home/hduser/python/simple.html"))
+soup.title
+#<title>
+#            Simple Web page
+#        </title>
+soup.title.name
+#'title'
+soup.title.parent
+#<head><title>
+#            Simple Web page
+#        </title></head>
+soup.title.parent.name
+#'head'
+soup.p
+#<p align="center" id="First para">
+#            First paragraph
+#            <b>
+#            Hello Students
+#            </b>
+#</p>
+soup.find('p');
+#<p align="center" id="First para">
+#            First paragraph
+#            <b>
+#            Hello Students
+#           </b>
+#</p>
+soup.find_all('p');
+#[<p align="center" id="First para">
+#            First paragraph
+#            <b>
+#            Hello Students
+#            </b>
+#</p>, <p align="center" id="Second para">
+#            This is basic HTML
+#            <b>
+#            two
+#            </b>
+#</p>]
+
+soup.b
+
+soup.find_all('b')
+
+
+soup.title.parent
+
+soup.head
+
+soup.title.next
+
+soup.body.p.next
+
+soup.head.next
+soup.head.next.name
+soup.head.previous.name
+soup.html.contents
+
+soup.html.contents
+soup.html.body
+soup.html.head
+soup.head.nextSibling.name
+soup.html.body.p.nextSibling.nextSibling
+soup.html.body.p.nextSibling.nextSibling
+
+
+soup = BeautifulSoup("<a><b>text1</b><c>text3</c></b></a>");
+print soup
+
+print soup.prettify()
+
+soup = BeautifulSoup(open("/home/hduser/python/simple.html"))
+soup.find_all('b')
+			
+#Filtering using regular expression
+import re
+for tag in soup.find_all(re.compile('^b')):
+     print tag.name
+
+body
+b
+b
+
+import re
+for tag in soup.find_all(re.compile('b$')):
+     print tag.name
+
+for tag in soup.find_all(re.compile('^p')):
+     print tag.name
+
+p
+p
+
+for tag in soup.find_all(re.compile('l')):
+     print tag.name
+
+html
+title
+
+#Filtering using list
+for tag in soup.find_all(['p', 'b']):
+     print tag
+
+<p align="center" id="First para">
+            First paragraph
+            <b>
+            Hello Students
+            </b>
+</p>
+<b>
+            Hello Students
+            </b>
+<p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>
+<b>
+            two
+            </b>
+
+
+#Finding tags using True
+
+for tag in soup.find_all(True):
+     print tag
+
+<html><head><title>
+            Simple Web page
+        </title></head><body>
+<p align="center" id="First para">
+            First paragraph
+            <b>
+            Hello Students
+            </b>
+</p>
+<p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>
+</body></html>
+<head><title>
+            Simple Web page
+        </title></head>
+<title>
+            Simple Web page
+        </title>
+<body>
+<p align="center" id="First para">
+            First paragraph
+            <b>
+            Hello Students
+            </b>
+</p>
+<p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>
+</body>
+<p align="center" id="First para">
+            First paragraph
+            <b>
+            Hello Students
+            </b>
+</p>
+<b>
+            Hello Students
+            </b>
+<p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>
+<b>
+            two
+            </b>
+
+for tag in soup.find_all(True):
+     print tag.name
+
+html
+head
+title
+body
+p
+b
+p
+b
+
+
+def align_and_id(tag):
+		return tag.has_attr('align') and tag.has_attr('id')
+
+soup.find_all(align_and_id)
+[<p align="center" id="First para">
+            First paragraph
+            <b>
+            Hello Students
+            </b>
+</p>, <p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>]
+
+
+
+def align_and_id(tag):
+		return tag.has_attr('align') and tag.has_attr('id')
+
+soup.find_all(align_and_id)
+
+
+
+
+find()
+------------------------------------------------
+find_all() scans the entire document but find() only returns the first found object
+It is like find_all() with LIMIT = 1 option
+
+soup.find('p');
+
+find_all_next() and find_next():
+-----------------------------------------------
+pTag = soup.find('p')
+pTag.findAllNext(text=True)
+[u'\n            First paragraph\n            ', u'\n            Hello Students\n            ', u'\n', u'\n', u'\n            This is basic HTML\n            ', u'\n            two\n            ', u'\n', u'\n']
+
+pTag.findNext('p')
+<p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>
+
+pTag = soup.find('p')
+pTag.findAllNext(text=True)
+[u'\n            First paragraph\n            ', u'\n            Hello Students\n            ', u'\n', u'\n', u'\n              This is basic HTML\n            ', u'\n            two\n            ', u'\n', u'\n']
+
+pTag.findNext('p')
+<p align="center" id="Second para">
+            This is basic HTML
+            <b>
+            two
+            </b>
+</p>
+
+pTag.findAllPrevious(text=True)
+[u'\n', u'\n            Simple Web page\n        ']
+
+
+soup.get_text()
+u'\n            Simple Web page\n        \n\n            First paragraph\n            \n            Hello Students\n            \n\n\n            This is basic HTML\n            \n            two\n            \n\n'
+
+soup.get_text('+')
+u'\n            Simple Web page\n        +\n+\n            First paragraph\n            +\n            Hello Students\n            +\n+\n+\n            This is basic HTML\n            +\n            two\n            +\n+\n'
+
+soup.get_text('|')
+u'\n            Simple Web page\n        |\n|\n            First paragraph\n            |\n            Hello Students\n            |\n|\n|\n            This is basic HTML\n            |\n            two\n            |\n|\n'
+
+soup.prettify(soup.get_text('|'))
+
+            Simple Web page
+        |
+|
+            First paragraph
+            |
+            Hello Students
+            |
+|
+|
+            This is basic HTML
+            |
+            two
+            |
+|
+
+
+soup.get_text('|', strip=True)   # strip whitespaces
+u'Simple Web page|First paragraph|Hello Students|This is basic HTML|two'
+
+SoupStrainer:
+==============================
+
+Behind the scenes, your arguments to a search method get transformed into a SoupStrainer object. If you call one of the methods that returns a list (like findAll), the SoupStrainer object is made available as the source property of the resulting list.
+
+
+from bs4 import BeautifulStoneSoup
+from bs4 import SoupStrainer
+xml = '<person name="Bob"><parent rel="mother" name="Alice">'
+xmlSoup = BeautifulStoneSoup(xml)
+results = xmlSoup.findAll(rel='mother')
+
+results.source
+# <BeautifulSoup.SoupStrainer instance at 0xb7e0158c>
+str(results.source)
+# "None|{'rel': 'mother'}"
+
+The SoupStrainer constructor takes most of the same arguments as find: name, attrs, text, and **kwargs. You can pass in a SoupStrainer as the name argument to any search method:
+
+xmlSoup.findAll(results.source) == results
+# True
+
+customStrainer = SoupStrainer(rel='mother')
+xmlSoup.findAll(customStrainer) == results
+#  True
+
+You can carry around a method call's arguments in many other ways. But another thing you can do with SoupStrainer is pass it into the soup constructor to restrict the parts of the document that actually get parsed. That brings us to the next section:
+
+Improving Performance by Parsing Only Part of the Document
+---------------------------------------------------------------
+Beautiful Soup turns every element of a document into a Python object and connects it to a bunch of other Python objects. If you only need a subset of the document, this is really slow. But you can pass in a SoupStrainer as the parseOnlyThese argument to the soup constructor. Beautiful Soup checks each element against the SoupStrainer, and only if it matches is the element turned into a Tag or NavigableText, and added to the tree.
+
+If an element is added to to the tree, then so are its children—even if they wouldn't have matched the SoupStrainer on their own. This lets you parse only the chunks of a document that contain the data you want.
+
+Here are several different ways of parsing the document into soup, depending on which parts you want. All of these are faster and use less memory than parsing the whole document and then using the same SoupStrainer to pick out the parts you want.
+
+Here's a pretty varied document:
+
+doc = '''Bob reports <a href="http://www.bob.com/">success</a>
+with his plasma breeding <a
+href="http://www.bob.com/plasma">experiments</a>. <i>Don't get any on
+us, Bob!</i>
+
+<br><br>Ever hear of annular fusion? The folks at <a
+href="http://www.boogabooga.net/">BoogaBooga</a> sure seem obsessed
+with it. Secret project, or <b>WEB MADNESS?</b> You decide!'''
+
+from bs4 import BeautifulSoup, SoupStrainer
+import re
+
+links = SoupStrainer('a')
+[tag for tag in BeautifulSoup(doc, parse_only=links)]
+# [<a href="http://www.bob.com/">success</a>, 
+#  <a href="http://www.bob.com/plasma">experiments</a>, 
+#  <a href="http://www.boogabooga.net/">BoogaBooga</a>]
+
+linksToBob = SoupStrainer('a', href=re.compile('bob.com/'))
+[tag for tag in BeautifulSoup(doc, parse_only=linksToBob)]
+# [<a href="http://www.bob.com/">success</a>, 
+#  <a href="http://www.bob.com/plasma">experiments</a>]
+
+mentionsOfBob = SoupStrainer(text=re.compile("Bob"))
+[text for text in BeautifulSoup(doc, parseOnlyThese=mentionsOfBob)]
+# [u'Bob reports ', u"Don't get any on\nus, Bob!"]
+
+allCaps = SoupStrainer(text=lambda(t):t.upper()==t)
+[text for text in BeautifulSoup(doc, parseOnlyThese=allCaps)]
+# [u'. ', u'\n', u'WEB MADNESS?']
+ 
+
+Sample Scraping: (PyCharm)
+============================
+
+
+from bs4 import BeautifulSoup
+import urllib2
+
+try:
+	test_url = urllib2.urlopen("http://www.reddit.com")
+	readHtml = test_url.read()
+except urllib2.HTTPError, error:
+    contents = error.read()
+
+test_url.close()
+
+soup = BeautifulSoup(readHtml)
+all_tag_a = soup.find_all("a", limit=10)
+for links in all_tag_a:
+	print (links.get('href'))
+
+
+
+
+
+
+soup = BeautifulSoup('<b class="price">New Price</b>')
+tag = soup.b
+type(tag)
+#<class 'bs4.element.Tag'>
+tag['class']
+#['price']
+tag.attrs
+#{'class': ['price']}
+tag.string
+#u'New Price'
+soup = BeautifulSoup("<b><!-- This is comment--></b>")
+comment = soup.b.string
+comment
+#u' This is comment'
+type(comment)
+#<class 'bs4.element.Comment'>
+
